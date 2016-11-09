@@ -1,5 +1,7 @@
 package abr;
 
+import java.util.List;
+
 public class ABR {
 	private Node racine;
 	
@@ -9,6 +11,18 @@ public class ABR {
 	
 	public Node getRacine() {
 		return this.racine;
+	}
+	
+	public int getRacValeur() {
+		return this.racine.getValeur();
+	}
+	
+	public ABR getRacFilsDroit() {
+		return racine.getFilsDroit();
+	}
+	
+	public ABR getRacFilsGauche() {
+		return racine.getFilsGauche();
 	}
 	
 	public boolean isEmpty() {
@@ -52,6 +66,31 @@ public class ABR {
 			String stringDroit = racine.getFilsDroit().makeString();
 			String stringGauche = racine.getFilsGauche().makeString();
 			return "(" + stringGauche + ", " + racValeur + ", " + stringDroit + ")";
+		}
+	}
+	
+	public boolean contains(int value) {
+		if (this.isEmpty()) {
+			return false;
+		} else {
+			int racValeur = this.getRacValeur();
+			if (value != racValeur) {
+				ABR fd = this.getRacFilsDroit();
+				ABR fg = this.getRacFilsGauche();
+				return fd.contains(value) || fg.contains(value);
+			} else {
+				return true;
+			}
+		}
+	}
+	
+	public void toList(List<Integer> l) {
+		if (!this.isEmpty()) {
+			ABR fd = this.getRacFilsDroit();
+			ABR fg = this.getRacFilsGauche();
+			fd.toList(l);
+			l.add(this.getRacValeur());
+			fg.toList(l);
 		}
 	}
 	
